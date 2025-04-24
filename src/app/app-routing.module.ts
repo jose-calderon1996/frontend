@@ -2,15 +2,17 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
+  
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'registro-dueno',
     pathMatch: 'full'
   },
+  {
+    path: 'registro-dueno',
+    loadComponent: () => import('./pages/registro-dueno/registro-dueno.page').then(m => m.RegistroDuenoPage)
+  }
+  
 ];
 
 @NgModule({
