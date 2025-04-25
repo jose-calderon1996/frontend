@@ -11,5 +11,9 @@ export class ApiService {
   post(endpoint: string, data: any): Promise<any> {
     return this.http.post(this.apiUrl + endpoint, data).toPromise();
   }
+
+  // Obtener datos por GET
+  get(endpoint: string): Promise<any> {
+    return this.http.get(this.apiUrl + endpoint).toPromise();
+  }
 }
-//

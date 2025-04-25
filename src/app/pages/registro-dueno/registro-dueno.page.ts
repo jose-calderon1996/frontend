@@ -26,29 +26,32 @@ export class RegistroDuenoPage {
 
   async registrarDueno() {
     try {
-      // ✅ 1. Crear usuario en Firebase
+      // 🔹 1. Crear en Firebase
       const userCredential = await this.authService.registrarConCorreo(this.correo, this.password);
       const uid = userCredential.user?.uid;
-
-      // ✅ 2. Guardar en tabla usuarios
+  
+      // 🔹 2. Insertar en tabla usuarios
       const resUsuario = await this.apiService.post('usuarios', {
         uid_firebase: uid,
         nombre: this.nombre,
         correo: this.correo,
         tipo_usuario: 'dueño'
       });
-
+  
+      // 🔹 3. Asegúrate de tener esto:
       const id_usuario = resUsuario.id_usuario;
-
-      // ✅ 3. Guardar en tabla dueños_box
-      await this.apiService.post('duenos-box', {
+      console.log('✅ ID recibido del usuario:', id_usuario);
+  
+      // 🔹 4. Insertar en tabla dueños_box
+      const resDueno = await this.apiService.post('duenos-box', {
         id_usuario: id_usuario,
         nombre_box: this.nombreBox
       });
-
-      // ✅ 4. Redirigir
+  
+      console.log('📦 Dueño guardado:', resDueno);
+  
+      // 🔹 5. Redirigir
       this.router.navigate(['/home']);
-
     } catch (error) {
       console.error('❌ Error en el registro del dueño:', error);
     }

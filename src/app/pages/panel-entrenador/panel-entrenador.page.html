@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Panel del Entrenador</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>Bienvenido, {{ nombre }}</h2>
+  <p><strong>Correo:</strong> {{ correo }}</p>
+
+  <!-- Botón para registrar un nuevo cliente -->
+  <ion-button expand="full" color="success" [routerLink]="'/crear-cliente'">
+    ➕ Registrar Nuevo Cliente
+  </ion-button>
+
+  <!-- Lista de clientes asociados -->
+  <ion-list *ngIf="clientes.length > 0">
+    <ion-item *ngFor="let cliente of clientes">
+      <ion-label>
+        <h2>{{ cliente.nombre }}</h2>
+        <p>{{ cliente.correo }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  
+</ion-content>
