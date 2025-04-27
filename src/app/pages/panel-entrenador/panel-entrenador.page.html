@@ -1,27 +1,62 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Panel del Entrenador</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding">
-  <h2>Bienvenido, {{ nombre }}</h2>
-  <p><strong>Correo:</strong> {{ correo }}</p>
 
-  <!-- Botón para registrar un nuevo cliente -->
-  <ion-button expand="full" color="success" [routerLink]="'/crear-cliente'">
-    ➕ Registrar Nuevo Cliente
+  <h1>Bienvenido, {{ nombre }}</h1>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Clientes Asociados</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div *ngIf="cantidadClientes > 0; else noClientes">
+        Tienes <strong>{{ cantidadClientes }}</strong> clientes asociados.
+      </div>
+
+      <ng-template #noClientes>
+        <div>Aún no tienes clientes asociados.</div>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button color="primary" expand="full" routerLink="/crear-cliente" style="margin-bottom: 10px;">
+    Registrar nuevo cliente
   </ion-button>
 
-  <!-- Lista de clientes asociados -->
-  <ion-list *ngIf="clientes.length > 0">
-    <ion-item *ngFor="let cliente of clientes">
-      <ion-label>
-        <h2>{{ cliente.nombre }}</h2>
-        <p>{{ cliente.correo }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-button color="danger" expand="full" (click)="cerrarSesion()">
+    Cerrar sesión
+  </ion-button>
 
-  
+  <h3 style="margin-top: 20px;">Clientes asociados:</h3>
+
+  <ion-accordion-group *ngIf="clientes.length > 0">
+    <ion-accordion *ngFor="let cliente of clientes">
+      <ion-item slot="header" color="light">
+        <ion-label class="cliente-nombre">{{ cliente.nombre }}</ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+
+        <div *ngIf="rutinasClientes && rutinasClientes[cliente.id_cliente] && rutinasClientes[cliente.id_cliente].length > 0; else noRutinas">
+          <strong>Rutinas asignadas:</strong>
+          <ion-list>
+            <ion-item *ngFor="let rutina of rutinasClientes[cliente.id_cliente]">
+              <ion-label>
+                {{ rutina.nombre_rutina }} <br>
+                <small>Fecha: {{ rutina.fecha_asignada | date:'yyyy-MM-dd' }}</small>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <ng-template #noRutinas>
+          <p><i>No tiene rutinas asignadas.</i></p>
+        </ng-template>
+
+        <ion-button expand="block" size="small" color="success" (click)="irACrearRutina(cliente.id_cliente)" style="margin-top: 10px;">
+          Crear Rutina
+        </ion-button>
+
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
 </ion-content>

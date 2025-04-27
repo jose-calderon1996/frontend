@@ -1,0 +1,25 @@
+<ion-content class="ion-padding">
+
+  <h2>Mis Rutinas Semanales</h2>
+
+  <ion-list *ngIf="rutinas.length > 0; else noRutinas">
+    <ion-card *ngFor="let rutina of rutinas">
+      <ion-card-header>
+        <ion-card-title>{{ rutina.nombre_rutina }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Día asignado: <strong>{{ rutina.dia_entrenamiento || 'No asignado' }}</strong>
+      </ion-card-content>
+      <ion-button expand="full" color="success" (click)="verDetalleRutina(rutina.id_rutina)">
+        Ver Rutina Detallada
+      </ion-button>
+      
+      
+    </ion-card>
+  </ion-list>
+
+  <ng-template #noRutinas>
+    <p>No tienes rutinas asignadas aún.</p>
+  </ng-template>
+
+</ion-content>

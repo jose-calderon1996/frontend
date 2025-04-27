@@ -34,10 +34,19 @@ export class LoginPage {
       // 3. Guardar info en localStorage
       localStorage.setItem('id_usuario', userData.id_usuario);
       localStorage.setItem('tipo_usuario', userData.tipo_usuario);
-      localStorage.setItem('nombre', userData.nombre); // ✅ IMPORTANTE
-      localStorage.setItem('correo', userData.correo); // opcional si quieres mostrarlo
+      localStorage.setItem('nombre', userData.nombre);
+      localStorage.setItem('correo', userData.correo);
 
-      // 4. Redirigir según tipo de usuario
+      // 4. 🚨 Registrar en log_acceso
+      await this.apiService.post('log-acceso/registrar', {
+        id_usuario: userData.id_usuario
+      }).then(() => {
+        console.log('✅ Acceso guardado en log_acceso');
+      }).catch(err => {
+        console.error('❌ Error al guardar log de acceso:', err);
+      });
+
+      // 5. Redirigir según tipo de usuario
       switch (userData.tipo_usuario) {
         case 'dueño':
           this.router.navigate(['/home']);
