@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,8 @@ import { ApiService } from '../../services/api.service';
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.page.html',
-  imports: [IonicModule, FormsModule, CommonModule]
+  styleUrls: ['./login.page.scss'],
+  imports: [IonicModule, FormsModule, CommonModule, RouterModule]
 })
 export class LoginPage {
   correo = '';
@@ -23,45 +24,39 @@ export class LoginPage {
   ) {}
 
   async login() {
+    this.correo = this.correo.trim().toLowerCase();
+
+    if (!this.correo || !this.password) {
+      alert('Por favor, completa todos los campos.');
+      return;
+    }
+
     try {
-      // 1. Iniciar sesión en Firebase
+      console.log('📨 Iniciando sesión con:', this.correo);
+
       const userCredential = await this.authService.iniciarSesion(this.correo, this.password);
       const uid = userCredential.user?.uid;
 
-      // 2. Obtener datos del usuario desde MySQL
       const userData = await this.apiService.get(`usuarios/uid/${uid}`);
+      console.log('🧠 userData recibido:', userData);
 
-      // 3. Guardar info en localStorage
+      // Guardar datos en localStorage
       localStorage.setItem('id_usuario', userData.id_usuario);
       localStorage.setItem('tipo_usuario', userData.tipo_usuario);
       localStorage.setItem('nombre', userData.nombre);
       localStorage.setItem('correo', userData.correo);
 
-      // 4. 🚨 Registrar en log_acceso
+      // Registrar log de acceso
       await this.apiService.post('log-acceso/registrar', {
         id_usuario: userData.id_usuario
-      }).then(() => {
-        console.log('✅ Acceso guardado en log_acceso');
-      }).catch(err => {
-        console.error('❌ Error al guardar log de acceso:', err);
       });
 
-      // 5. Redirigir según tipo de usuario
-      switch (userData.tipo_usuario) {
-        case 'dueño':
-          this.router.navigate(['/home']);
-          break;
-        case 'entrenador':
-          this.router.navigate(['/panel-entrenador']);
-          break;
-        case 'cliente':
-          this.router.navigate(['/panel-cliente']);
-          break;
-      }
+      // Redirección genérica, el guard se encarga del acceso
+      this.router.navigate(['/redirect']);
 
     } catch (error) {
       console.error('❌ Error en el login:', error);
-      alert('Error al iniciar sesión');
+      alert('Correo o contraseña incorrectos.');
     }
   }
 }
