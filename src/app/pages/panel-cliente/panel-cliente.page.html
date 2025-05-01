@@ -13,4 +13,47 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- 🗣️ Botón para mostrar foro de comentarios -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>¿Qué opinas de nuestro servicio?</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>¡Queremos conocer tu experiencia en nuestro box de CrossFit! Deja tu comentario o sugerencia para ayudarnos a mejorar.</p>
+
+      <ion-button expand="full" color="success" (click)="mostrarComentario = !mostrarComentario">
+        {{ mostrarComentario ? 'Ocultar Foro' : 'Foro de Opiniones' }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 📝 Caja de comentarios si está activa -->
+  <ion-card *ngIf="mostrarComentario">
+    <ion-card-header>
+      <ion-card-title>Deja tu comentario</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-textarea
+        [(ngModel)]="comentario"
+        placeholder="Escribe tu comentario aquí..."
+      ></ion-textarea>
+
+      <ion-label>Puntúa el box:</ion-label>
+      <ion-row>
+        <ion-icon
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          name="star"
+          [color]="puntuacion >= star ? 'warning' : 'medium'"
+          (click)="puntuacion = star"
+          style="font-size: 24px;">
+        </ion-icon>
+      </ion-row>
+
+      <ion-button expand="full" color="primary" (click)="enviarComentario()">
+        Enviar Comentario
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

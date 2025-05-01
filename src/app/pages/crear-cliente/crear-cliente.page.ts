@@ -16,7 +16,6 @@ export class CrearClientePage {
   nombre = '';
   correo = '';
   password = '';
-  idCliente: number | undefined;
 
   constructor(
     private authService: AuthService,
@@ -24,50 +23,34 @@ export class CrearClientePage {
     private router: Router
   ) {}
 
-  // Función para registrar al cliente en Firebase y luego en la base de datos
+  // ✅ Función completa para registrar cliente y asociarlo
   async registrarCliente() {
     try {
-      // Crear cliente en Firebase
+      // 1. Crear usuario en Firebase
       const cred = await this.authService.registrarConCorreo(this.correo, this.password);
       const uid = cred.user?.uid;
 
-      // Crear cliente en MySQL
-      const usuario = await this.apiService.post('entrenador-clientes/crear-cliente', {
-        uid_firebase: uid,
-        nombre: this.nombre,
-        correo: this.correo,
-        tipo_usuario: 'cliente',
-      });
-
-      this.idCliente = usuario.id_usuario; // Guardamos el id del cliente creado
-      alert('✅ Cliente registrado correctamente');
-    } catch (error) {
-      console.error('❌ Error registrando cliente:', error);
-      alert('Error al registrar cliente');
-    }
-  }
-
-  // Función para asociar al cliente con el entrenador
-  async asociarCliente() {
-    try {
+      // 2. Obtener ID del entrenador desde localStorage
       const idEntrenador = localStorage.getItem('id_usuario');
-      
-      if (!idEntrenador || !this.idCliente) {
-        alert('Faltan datos para asociar al cliente');
+
+      if (!uid || !idEntrenador) {
+        alert('❌ Faltan datos para registrar al cliente');
         return;
       }
 
-      // Asociar cliente al entrenador
-      await this.apiService.post('entrenador-clientes/asociar', {
-        id_entrenador: idEntrenador,
-        id_cliente: this.idCliente,
+      // 3. Registrar cliente y asociarlo automáticamente en MySQL
+      const respuesta = await this.apiService.post('usuarios/registrar-cliente', {
+        uid_firebase: uid,
+        nombre: this.nombre,
+        correo: this.correo,
+        id_entrenador: idEntrenador
       });
 
-      alert('✅ Cliente asociado correctamente');
+      alert('✅ Cliente registrado y asociado correctamente');
       this.router.navigate(['/panel-entrenador']);
     } catch (error) {
-      console.error('❌ Error asociando cliente:', error);
-      alert('Error al asociar al cliente');
+      console.error('❌ Error registrando cliente:', error);
+      alert('Error al registrar cliente');
     }
   }
 }

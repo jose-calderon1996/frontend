@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
@@ -22,47 +22,55 @@ export class PanelEntrenadorPage implements OnInit {
   constructor(
     private apiService: ApiService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
+    console.log('👤 ID entrenador desde localStorage:', this.idEntrenador);
     await this.obtenerCantidadClientes();
-    await this.obtenerClientesAsociados(); // 👈 para que también cargue los clientes
+    await this.obtenerClientesAsociados();
   }
-
-  async cerrarSesion() {
+  async obtenerClientesAsociados() {
     try {
-      await this.authService.cerrarSesion();
-      this.router.navigate(['/login']);
+      const clientes = await this.apiService.get(`entrenador-clientes/clientes-asociados/${this.idEntrenador}`);
+      console.log('📦 Clientes que llegan del backend:', clientes);
+      this.clientes = clientes;
+
+      for (const cliente of this.clientes) {
+        const rutinas = await this.apiService.get(`rutinas/cliente/${cliente.id_cliente}`);
+        this.rutinasClientes[cliente.id_cliente] = rutinas;
+      }
+
+      this.cdr.detectChanges();
     } catch (error) {
-      console.error('❌ Error al cerrar sesión:', error);
+      console.error('❌ Error al obtener clientes asociados:', error);
     }
   }
-
   async obtenerCantidadClientes() {
     try {
       const response = await this.apiService.get(`entrenador-clientes/contar-clientes/${this.idEntrenador}`);
+      console.log('🔢 Cantidad de clientes:', response.total);
       this.cantidadClientes = response.total;
     } catch (error) {
       console.error('❌ Error al obtener cantidad de clientes:', error);
     }
   }
 
-  async obtenerClientesAsociados() {
+  async cerrarSesion() {
     try {
-      const clientes = await this.apiService.get(`entrenador-clientes/clientes-asociados/${this.idEntrenador}`);
-
-      this.clientes = clientes;
-
-      // 🔵 Traer también las rutinas de cada cliente
-      for (const cliente of this.clientes) {
-        const rutinas = await this.apiService.get(`rutinas/cliente/${cliente.id_cliente}`);
-        this.rutinasClientes[cliente.id_cliente] = rutinas;
-      }
+      await this.authService.cerrarSesion();
+      localStorage.clear(); // 🧹 LIMPIA todos los datos
+      this.router.navigate(['/login']);
     } catch (error) {
-      console.error('❌ Error al obtener clientes asociados:', error);
+      console.error('❌ Error al cerrar sesión:', error);
     }
   }
+  
+
+  
+
+  
 
   irACrearRutina(id_cliente: number) {
     this.router.navigate(['/crear-rutina', id_cliente]);

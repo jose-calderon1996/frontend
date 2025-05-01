@@ -74,9 +74,23 @@ const routes: Routes = [
   },
   {
     path: 'redirect',
-    canActivate: [RolGuard], // Aquí se redirige según el rol
-    loadComponent: () => import('./pages/bienvenida/bienvenida.page').then(m => m.BienvenidaPage) // dummy temporal
+    canActivate: [RolGuard],
+    loadComponent: () => import('./pages/bienvenida/bienvenida.page').then(m => m.BienvenidaPage)
+  },
+  {
+    path: 'panel-dueno',
+    loadComponent: () => import('./pages/panel-dueno/panel-dueno.page').then(m => m.PanelDuenoPage),
+    canActivate: [RolGuard],
+    data: { tipo: 'dueño' }
+  },
+  {
+    path: 'calculo-imc',
+    loadChildren: () => import('./pages/calculo-imc/calculo-imc.module').then( m => m.CalculoImcPageModule)
   }
+  
+  
+  
+  
 ];
 
 @NgModule({

@@ -46,13 +46,20 @@ export class LoginPage {
       localStorage.setItem('nombre', userData.nombre);
       localStorage.setItem('correo', userData.correo);
 
+      await this.router.navigate(['/redirect']);
+
+      
+
+
       // Registrar log de acceso
       await this.apiService.post('log-acceso/registrar', {
         id_usuario: userData.id_usuario
       });
 
+      
+
       // Redirección genérica, el guard se encarga del acceso
-      this.router.navigate(['/redirect']);
+      
 
     } catch (error) {
       console.error('❌ Error en el login:', error);

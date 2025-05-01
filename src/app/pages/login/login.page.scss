@@ -48,4 +48,15 @@
     font-weight: bold;
     margin-top: 20px;
   }
-  
+  /* Tarjeta con borde rojo y sombra */
+/* Tarjeta con borde rojo y sombra */
+.tarjeta-roja {
+  background: #1a1a1a;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(255, 82, 82, 0.4); /* 💥 borde/sombra roja */
+  padding: 20px;
+  width: 100%;
+  max-width: 340px;
+  margin-top: 10px;
+}
+

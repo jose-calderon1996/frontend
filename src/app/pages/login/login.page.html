@@ -6,6 +6,7 @@
 
 <ion-content class="ion-padding fondo-fitness">
   <div class="container-bienvenida">
+
     <!-- Icono animado -->
     <ion-icon name="key-outline" class="icono-fitness"></ion-icon>
 
@@ -15,23 +16,29 @@
       Plataforma para <strong>Dueños</strong>, <strong>Entrenadores</strong> y <strong>Clientes</strong>
     </p>
 
-    <!-- Inputs -->
-    <ion-item>
-      <ion-icon name="mail-outline" slot="start"></ion-icon>
-      <ion-label position="floating">Correo</ion-label>
-      <ion-input [(ngModel)]="correo" name="correo" type="email" required></ion-input>
-    </ion-item>
+    <!-- 🔴 Tarjeta envolvente -->
+    <div class="tarjeta-roja">
 
-    <ion-item>
-      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input [(ngModel)]="password" name="password" type="password" required></ion-input>
-    </ion-item>
+      <!-- Inputs -->
+      <ion-item>
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Correo</ion-label>
+        <ion-input [(ngModel)]="correo" name="correo" type="email" required></ion-input>
+      </ion-item>
 
-    <!-- Botón -->
-    <ion-button expand="block" color="danger" class="boton-fitness" (click)="login()">
-      <ion-icon slot="start" name="log-in-outline"></ion-icon>
-      Iniciar sesión
-    </ion-button>
+      <ion-item>
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input [(ngModel)]="password" name="password" type="password" required></ion-input>
+      </ion-item>
+
+      <!-- Botón -->
+      <ion-button expand="block" color="danger" class="boton-fitness" (click)="login()">
+        <ion-icon slot="start" name="log-in-outline"></ion-icon>
+        Iniciar sesión
+      </ion-button>
+
+    </div>
+    
   </div>
 </ion-content>

@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>Panel del Dueño</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Resumen general -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Resumen general</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>Entrenadores:</ion-label>
+            <p>{{ totalEntrenadores }}</p>
+          </ion-col>
+          <ion-col size="6">
+            <ion-label>Clientes:</ion-label>
+            <p>{{ totalClientes }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Comentarios -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Comentarios del Box</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="comentarios.length > 0; else sinComentarios">
+        <ion-item *ngFor="let c of comentarios">
+          <ion-label>
+            <h2>{{ c.nombre_cliente }}</h2>
+            <p>{{ c.comentario }}</p>
+            <ion-row>
+              <ion-icon 
+                *ngFor="let star of [1,2,3,4,5]" 
+                name="star" 
+                [color]="c.puntuacion >= star ? 'warning' : 'medium'">
+              </ion-icon>
+            </ion-row>
+            <small>{{ c.fecha | date }}</small>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ng-template #sinComentarios>
+        <p>No hay comentarios aún.</p>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

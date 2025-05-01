@@ -10,32 +10,28 @@ export class RolGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const tipoUsuario = localStorage.getItem('tipo_usuario');
-    const tipoRequerido = route.data['tipo']; // solo existe si es una ruta protegida como panel-cliente
+    const tipoRequerido = route.data['tipo']; // existe solo en rutas protegidas
 
-    // ✅ Si esta es la ruta de redirección automática
-    if (!tipoRequerido) {
-      switch (tipoUsuario) {
-        case 'cliente':
-          this.router.navigate(['/panel-cliente']);
-          break;
-        case 'entrenador':
-          this.router.navigate(['/panel-entrenador']);
-          break;
-        case 'dueño':
-          this.router.navigate(['/home']);
-          break;
-        default:
-          this.router.navigate(['/login']);
-      }
-      return false; // No deja entrar a /redirect
+    // 🔐 Rutas protegidas: valida tipo
+    if (tipoRequerido) {
+      return tipoUsuario === tipoRequerido;
     }
 
-    // ✅ Para rutas protegidas como panel-cliente, etc.
-    if (tipoUsuario === tipoRequerido) {
-      return true; // acceso autorizado
-    } else {
-      this.router.navigate(['/login']);
-      return false; // acceso denegado
+    // 🚀 Redirección automática desde /redirect
+    switch (tipoUsuario) {
+      case 'cliente':
+        this.router.navigate(['/panel-cliente']);
+        break;
+      case 'entrenador':
+        this.router.navigate(['/panel-entrenador']);
+        break;
+      case 'dueño':
+        this.router.navigate(['/panel-dueno']);
+        break;
+      default:
+        this.router.navigate(['/login']);
     }
+
+    return false; // evita que cargue la ruta dummy
   }
 }
