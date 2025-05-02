@@ -83,10 +83,13 @@ const routes: Routes = [
     canActivate: [RolGuard],
     data: { tipo: 'dueño' }
   },
+  
   {
     path: 'calculo-imc',
-    loadChildren: () => import('./pages/calculo-imc/calculo-imc.module').then( m => m.CalculoImcPageModule)
-  }
+    loadComponent: () => import('./pages/calculo-imc/calculo-imc.page').then(m => m.CalculoImcPage)
+  },
+  
+  
   
   
   

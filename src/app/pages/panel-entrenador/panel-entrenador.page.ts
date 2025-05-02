@@ -10,6 +10,7 @@ import { RouterModule, Router } from '@angular/router';
   standalone: true,
   templateUrl: './panel-entrenador.page.html',
   imports: [CommonModule, IonicModule, RouterModule],
+  styleUrls: ['./panel-entrenador.page.scss'],
 })
 export class PanelEntrenadorPage implements OnInit {
   nombre = localStorage.getItem('nombre') || '';

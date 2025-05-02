@@ -1,19 +1,27 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>Panel Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
 
   <h1>Bienvenido, {{ nombre }}</h1>
 
+  <!-- Card de Rutinas -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Panel Cliente</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-button expand="full" color="primary" (click)="irMisRutinas()">
+      <ion-button expand="full" class="boton-rojo" (click)="irMisRutinas()">
+        <ion-icon name="barbell-outline" slot="start"></ion-icon>
         Mis Rutinas Semanales
       </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <!-- 🗣️ Botón para mostrar foro de comentarios -->
+  <!-- Foro de Opiniones -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>¿Qué opinas de nuestro servicio?</ion-card-title>
@@ -21,13 +29,14 @@
     <ion-card-content>
       <p>¡Queremos conocer tu experiencia en nuestro box de CrossFit! Deja tu comentario o sugerencia para ayudarnos a mejorar.</p>
 
-      <ion-button expand="full" color="success" (click)="mostrarComentario = !mostrarComentario">
+      <ion-button expand="full" class="boton-rojo" (click)="mostrarComentario = !mostrarComentario">
+        <ion-icon [name]="mostrarComentario ? 'eye-off-outline' : 'chatbox-ellipses-outline'" slot="start"></ion-icon>
         {{ mostrarComentario ? 'Ocultar Foro' : 'Foro de Opiniones' }}
       </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <!-- 📝 Caja de comentarios si está activa -->
+  <!-- Comentario -->
   <ion-card *ngIf="mostrarComentario">
     <ion-card-header>
       <ion-card-title>Deja tu comentario</ion-card-title>
@@ -36,21 +45,23 @@
     <ion-card-content>
       <ion-textarea
         [(ngModel)]="comentario"
-        placeholder="Escribe tu comentario aquí..."
-      ></ion-textarea>
+        placeholder="Escribe tu comentario aquí...">
+      </ion-textarea>
 
       <ion-label>Puntúa el box:</ion-label>
       <ion-row>
         <ion-icon
           *ngFor="let star of [1, 2, 3, 4, 5]"
           name="star"
-          [color]="puntuacion >= star ? 'warning' : 'medium'"
-          (click)="puntuacion = star"
-          style="font-size: 24px;">
+          [class.star-activa]="puntuacion >= star"
+          class="estrella"
+          (click)="puntuacion = star">
         </ion-icon>
       </ion-row>
+      
 
-      <ion-button expand="full" color="primary" (click)="enviarComentario()">
+      <ion-button expand="full" class="boton-rojo" (click)="enviarComentario()">
+        <ion-icon name="send-outline" slot="start"></ion-icon>
         Enviar Comentario
       </ion-button>
     </ion-card-content>

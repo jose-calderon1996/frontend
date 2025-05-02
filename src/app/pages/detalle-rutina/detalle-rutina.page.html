@@ -1,24 +1,25 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="success">
     <ion-title>Detalle de Rutina</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-  <ion-card>
+  <ion-card class="card-rojo">
     <ion-card-header>
-      <ion-card-title>{{ nombreRutina }}</ion-card-title>
-      <ion-card-subtitle>Día: {{ diaEntrenamiento }}</ion-card-subtitle>
+      <ion-card-title class="titulo-rojo">{{ nombreRutina }}</ion-card-title>
+      <ion-card-subtitle class="subtitulo-rojo">Día: {{ diaEntrenamiento }}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
 
-  <!-- 🆕 Nueva presentación compacta -->
   <ion-list>
-    <ion-card *ngFor="let ejercicio of ejercicios" class="ion-margin-bottom">
+    <ion-card *ngFor="let ejercicio of ejercicios" class="card-rojo ion-margin-bottom">
       <ion-card-header>
-        <ion-card-title>{{ ejercicio.nombre_ejercicio }}</ion-card-title>
-        <ion-card-subtitle>Series: {{ ejercicio.series }} | Reps: {{ ejercicio.repeticiones }}</ion-card-subtitle>
+        <ion-card-title class="titulo-rojo">{{ ejercicio.nombre_ejercicio }}</ion-card-title>
+        <ion-card-subtitle class="subtitulo-rojo">
+          Series: {{ ejercicio.series }} | Reps: {{ ejercicio.repeticiones }}
+        </ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
@@ -51,8 +52,7 @@
     </ion-card>
   </ion-list>
 
-  <!-- 📝 Área para comentarios -->
-  <ion-item class="ion-margin-top">
+  <ion-item class="ion-margin-top item-rojo">
     <ion-label position="stacked">Comentario sobre la rutina (opcional)</ion-label>
     <ion-textarea
       [(ngModel)]="comentario"
@@ -60,13 +60,13 @@
     </ion-textarea>
   </ion-item>
 
-  <!-- ✅ Botón para marcar rutina realizada -->
-  <ion-button expand="full" color="success" class="ion-margin-top" (click)="marcarRutinaRealizada()">
+  <ion-button expand="full" class="boton-rojo ion-margin-top" (click)="marcarRutinaRealizada()">
+    <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
     Rutina Realizada
   </ion-button>
 
-  <!-- ✅ Botón para guardar registro de ejercicios -->
-  <ion-button expand="full" color="primary" class="ion-margin-top" (click)="guardarRegistroEjercicios()">
+  <ion-button expand="full" class="boton-rojo ion-margin-top" (click)="guardarRegistroEjercicios()">
+    <ion-icon name="save-outline" slot="start"></ion-icon>
     Guardar Registro de Ejercicios
   </ion-button>
 

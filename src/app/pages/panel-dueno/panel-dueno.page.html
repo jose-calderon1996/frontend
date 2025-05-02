@@ -1,8 +1,18 @@
 <ion-header>
   <ion-toolbar color="success">
-    <ion-title>Panel del Dueño</ion-title>
+    <ion-title class="ion-text-center" style="width: 100%;">
+      Panel del Dueño
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="light" [routerLink]="['/registro-entrenador']">
+        <ion-icon name="person-add" slot="start"></ion-icon>
+        <ion-label>Entrenador + </ion-label>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+
 
 <ion-content class="ion-padding">
 

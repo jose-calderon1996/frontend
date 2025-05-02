@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [IonicModule, FormsModule, CommonModule],
   templateUrl: './crear-cliente.page.html',
+  styleUrls: ['./crear-cliente.page.scss'],
 })
 export class CrearClientePage {
   nombre = '';
